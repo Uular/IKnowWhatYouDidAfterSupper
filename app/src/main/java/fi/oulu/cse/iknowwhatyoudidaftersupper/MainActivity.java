@@ -1,8 +1,11 @@
 package fi.oulu.cse.iknowwhatyoudidaftersupper;
 
+import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +15,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+
+import fi.oulu.cse.iknowwhatyoudidaftersupper.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+            TaskFragment.OnListFragmentInteractionListener,
+            DashboardFragment.OnFragmentInteractionListener {
+
+    DashboardFragment mDashFragment;
+    TaskFragment mTaskFragment;
+    GroceriesFragment mGroceriesFragment;
+    MapFragment mMapFragment;
+    CalendarFragment mCalendarFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +37,19 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mDashFragment = DashboardFragment.newInstance();
+        mTaskFragment = TaskFragment.newInstance(1);
+        mCalendarFragment = CalendarFragment.newInstance();
+        mMapFragment = MapFragment.newInstance();
+        mGroceriesFragment = GroceriesFragment.newInstance();
+
+
+        // TODO: Select fragment from saved state
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, mDashFragment)
+                .addToBackStack(null)
+                .commit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,23 +108,42 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment f = null;
+
         // TODO: Navigate by switching fragments
         if (id == R.id.nav_dashboard) {
-
+            f = mDashFragment;
         } else if (id == R.id.nav_tasks) {
-
+            f = mTaskFragment;
         } else if (id == R.id.nav_calendar) {
-
+            f = mCalendarFragment;
         } else if (id == R.id.nav_map) {
-
+            f = mMapFragment;
         } else if (id == R.id.nav_groceries) {
-
+            f = mGroceriesFragment;
         } else if (id == R.id.nav_settings) {
+            // TODO
+        }
 
+        if (f != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, f)
+                    .addToBackStack(null)
+                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
