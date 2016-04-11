@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
 
 
         // TODO: Select fragment from saved state
-        getSupportFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mDashFragment)
                 .addToBackStack(null)
                 .commit();
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (f != null) {
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, f)
                     .addToBackStack(null)
                     .commit();
