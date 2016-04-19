@@ -1,7 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context="fi.oulu.cse.iknowwhatyoudidaftersupper.GroceriesFragment">
 
     <RelativeLayout
@@ -11,7 +12,7 @@
             android:id="@+id/GroceryInput"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Input new grocery..."
+            android:hint="Input new grocery..."
             />
         <Button
             android:id="@+id/GroceryAddBtn"
@@ -26,4 +27,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></ListView>
 
-</FrameLayout>
+</LinearLayout>

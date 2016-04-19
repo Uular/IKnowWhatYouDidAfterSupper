@@ -49,6 +49,8 @@ public class GroceriesFragment extends Fragment {
                 String newItem = GroceryInput.getText().toString();
                 groceryList.add(newItem);
                 groceryAdapter.notifyDataSetChanged();
+                GroceryInput.setText("");
+                GroceryInput.setHint("Input new grocery...");
             }
         });
         return view;
