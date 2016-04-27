@@ -6,20 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import fi.oulu.cse.iknowwhatyoudidaftersupper.TaskFragment.OnListFragmentInteractionListener;
+//import fi.oulu.cse.iknowwhatyoudidaftersupper.TaskFragment.OnListFragmentInteractionListener;
 import fi.oulu.cse.iknowwhatyoudidaftersupper.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
-/**
+/*
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    //private final OnListFragmentInteractionListener mListener;
 
     public MyTaskRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -74,4 +74,4 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
-}
+}       */

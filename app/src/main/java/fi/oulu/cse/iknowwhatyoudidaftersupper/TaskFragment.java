@@ -6,23 +6,31 @@ import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import fi.oulu.cse.iknowwhatyoudidaftersupper.dummy.DummyContent;
 import fi.oulu.cse.iknowwhatyoudidaftersupper.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-/**
+/*
  * A fragment representing a list of Items.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class TaskFragment extends Fragment {
-
+/*
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -32,7 +40,7 @@ public class TaskFragment extends Fragment {
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
-     */
+
     public TaskFragment() {
     }
 
@@ -101,9 +109,83 @@ public class TaskFragment extends Fragment {
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
     }
+}
+
+*/
+
+    private ArrayList<String> openTaskList;
+    private ArrayList<String> myTaskList;
+    private ArrayAdapter<String> taskAdapter;
+    private ArrayAdapter<String> taskAdapter1;
+    private EditText taskInput;
+
+
+    public TaskFragment() {
+        // Required empty public constructor
+    }
+
+    public static TaskFragment newInstance() {
+        return new TaskFragment();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_task, container, false);
+        ListView listView=(ListView)view.findViewById(R.id.openTaskList);
+        ListView listView2=(ListView)view.findViewById(R.id.myTaskList);
+        String[] items = {};
+        String[] items2 = {};
+        openTaskList = new ArrayList<>(Arrays.asList(items));
+        openTaskList.add("lol");
+        openTaskList.add("lol2");
+        openTaskList.add("lol3");
+        myTaskList = new ArrayList<>(Arrays.asList(items2));
+        myTaskList.add("kek");
+        myTaskList.add("kek2");
+        myTaskList.add("kek3");
+        taskAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.txtitem, openTaskList);
+        listView.setAdapter(taskAdapter);
+        taskAdapter1 = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.txtitem, myTaskList);
+        listView2.setAdapter(taskAdapter1);
+        listView.setClickable(true);
+        listView2.setClickable(true);
+
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                Log.d("DEBUG", "onItemClick:");
+                String s = taskAdapter.getItem(i);
+                taskAdapter1.add(s);
+                taskAdapter.remove(s);
+                taskAdapter1.notifyDataSetChanged();
+                taskAdapter.notifyDataSetChanged();
+            }
+        });
+
+        listView2.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                String s = taskAdapter1.getItem(i);
+                taskAdapter.add(s);
+                taskAdapter1.remove(s);
+                taskAdapter1.notifyDataSetChanged();
+                taskAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+
+
+        return view;
+    }
+
 }
