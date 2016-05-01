@@ -26,5 +26,10 @@
         android:id="@+id/GroceryList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></ListView>
+    <Button
+        android:id="@+id/GroceryClrBtn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Clear"/>
 
 </LinearLayout>

@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+
 import fi.oulu.cse.iknowwhatyoudidaftersupper.dummy.DummyContent;
 import fi.oulu.cse.iknowwhatyoudidaftersupper.dummy.DummyContent.DummyItem;
 
@@ -29,7 +32,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class TaskFragment extends Fragment {
+public class TaskFragment extends Fragment{
 /*
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -123,6 +126,7 @@ public class TaskFragment extends Fragment {
     private ArrayAdapter<String> taskAdapter;
     private ArrayAdapter<String> taskAdapter1;
     private EditText taskInput;
+    private final String FILL_KEY = "notEmpty";
 
 
     public TaskFragment() {
@@ -137,48 +141,72 @@ public class TaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        final DBHelper db = new DBHelper(getActivity());
         View view = inflater.inflate(R.layout.fragment_task, container, false);
         ListView listView=(ListView)view.findViewById(R.id.openTaskList);
         ListView listView2=(ListView)view.findViewById(R.id.myTaskList);
         String[] items = {};
         String[] items2 = {};
-        openTaskList = new ArrayList<>(Arrays.asList(items));
-        openTaskList.add("lol");
-        openTaskList.add("lol2");
-        openTaskList.add("lol3");
-        myTaskList = new ArrayList<>(Arrays.asList(items2));
-        myTaskList.add("kek");
-        myTaskList.add("kek2");
-        myTaskList.add("kek3");
+        //openTaskList = new ArrayList<>(Arrays.asList(items));
+        openTaskList = db.getAllOpenTasks();
+        //If there's items on groverylist!
+        //openTaskList.add("Groceries");
+
+        //myTaskList = new ArrayList<>(Arrays.asList(items2));
+        myTaskList = db.getAllMyTasks();
+
         taskAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.txtitem, openTaskList);
         listView.setAdapter(taskAdapter);
         taskAdapter1 = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.txtitem, myTaskList);
         listView2.setAdapter(taskAdapter1);
+
+        if (!db.isFilled() && db.numberOfGroceryRows() > 0) {
+            openTaskList.add("Groceries");
+            db.insertOpenTask("Groceries");
+            taskAdapter.notifyDataSetChanged();
+            Log.d("DEBUG", "KAKKONEN");
+        }
         listView.setClickable(true);
         listView2.setClickable(true);
 
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+        listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 //To change body of implemented methods use File | Settings | File Templates.
                 Log.d("DEBUG", "onItemClick:");
                 String s = taskAdapter.getItem(i);
                 taskAdapter1.add(s);
+                db.insertMyTask(s);
                 taskAdapter.remove(s);
+                db.deleteOpenTask(s);
                 taskAdapter1.notifyDataSetChanged();
                 taskAdapter.notifyDataSetChanged();
             }
         });
 
-        listView2.setOnItemClickListener(new ListView.OnItemClickListener() {
+        listView2.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 //To change body of implemented methods use File | Settings | File Templates.
+                Log.d("DEBUG", "onItemClick:2");
                 String s = taskAdapter1.getItem(i);
-                taskAdapter.add(s);
                 taskAdapter1.remove(s);
+                db.deleteMyTask(s);
                 taskAdapter1.notifyDataSetChanged();
                 taskAdapter.notifyDataSetChanged();
+            }
+        });
+
+        Button TaskAddBtn = (Button)view.findViewById(R.id.TaskAddBtn);
+        taskInput = (EditText)view.findViewById(R.id.TaskInput);
+        TaskAddBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String newItem = taskInput.getText().toString();
+                openTaskList.add(newItem);
+                db.insertOpenTask(newItem);
+                taskAdapter.notifyDataSetChanged();
+                taskInput.setText("");
+                taskInput.setHint("Input new task...");
             }
         });
 

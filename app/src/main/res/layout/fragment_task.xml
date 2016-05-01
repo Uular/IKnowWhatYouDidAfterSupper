@@ -4,7 +4,23 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/TaskInput"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="Add new task..."
+            />
+        <Button
+            android:id="@+id/TaskAddBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:layout_toRightOf="@id/TaskInput"
+            />
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,7 +33,7 @@
 
         <ListView
             android:id="@+id/openTaskList"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
@@ -34,7 +50,7 @@
 
         <ListView
             android:id="@+id/myTaskList"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
