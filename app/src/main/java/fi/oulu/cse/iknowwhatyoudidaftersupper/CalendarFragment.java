@@ -38,11 +38,13 @@ public class CalendarFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         WeekView wv = (WeekView) v.findViewById(R.id.calendar);
+
+        wv.setNumberOfVisibleDays(1);
+
         wv.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-                // TODO: Fetch events by year and month
-                return new ArrayList<WeekViewEvent>();
+                return CalendarUtil.getEvents(getActivity(), newYear, newMonth);
             }
         });
 
