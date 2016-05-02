@@ -1,13 +1,54 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="fi.oulu.cse.iknowwhatyoudidaftersupper.DashboardFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/alarmView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/dinnerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        >
+        <TextView
+            android:id="@+id/nextDinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="30dp"
+            android:text="Next Meal:  " />
+        <TextView
+            android:id="@+id/dinnerTime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="12:15"
+            android:textSize="30dp"
+            android:layout_toRightOf="@+id/nextDinner"
+            />
+        <ImageButton
+            android:id="@+id/newMealBtm"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            />
 
-</FrameLayout>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <ListView
+        android:id="@+id/DashboardList"
+        android:layout_width="match_parent"
+        android:background="@android:color/background_light"
+        android:layout_height="200dp"></ListView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+</LinearLayout>

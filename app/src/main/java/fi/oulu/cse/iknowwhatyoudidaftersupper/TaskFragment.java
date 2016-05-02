@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
 
 import fi.oulu.cse.iknowwhatyoudidaftersupper.dummy.DummyContent;
 import fi.oulu.cse.iknowwhatyoudidaftersupper.dummy.DummyContent.DummyItem;
@@ -181,6 +182,7 @@ public class TaskFragment extends Fragment{
                 db.deleteOpenTask(s);
                 taskAdapter1.notifyDataSetChanged();
                 taskAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "Task picked!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -194,6 +196,7 @@ public class TaskFragment extends Fragment{
                 db.deleteMyTask(s);
                 taskAdapter1.notifyDataSetChanged();
                 taskAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "Task completed!", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -7,6 +7,13 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -46,11 +53,25 @@ public class DashboardFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    private ArrayList<String> dashboardList;
+    private ArrayAdapter<String> dashboardAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        final DBHelper db = new DBHelper(getActivity());
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        ListView listView=(ListView)view.findViewById(R.id.DashboardList);
+        dashboardList = db.getAllMyTasks();
+        dashboardAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.txtitem, dashboardList);
+        listView.setAdapter(dashboardAdapter);
+        ImageButton AddBtn = (ImageButton)view.findViewById(R.id.newMealBtm);
+        AddBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

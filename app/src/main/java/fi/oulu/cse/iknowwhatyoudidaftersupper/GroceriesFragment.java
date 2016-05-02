@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +69,7 @@ public class GroceriesFragment extends Fragment {
                 db.deleteAllGrocery();
                 //bundle.putInt("notEmpty", groceryList.size());
                 groceryAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "GroceryList cleared!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -81,6 +83,7 @@ public class GroceriesFragment extends Fragment {
                 db.deleteGrocery(s);
                 //bundle.putInt("notEmpty", groceryList.size());
                 groceryAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "Grocery removed!", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
