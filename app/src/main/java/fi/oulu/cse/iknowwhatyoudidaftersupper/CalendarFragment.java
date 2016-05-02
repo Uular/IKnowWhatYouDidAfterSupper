@@ -1,9 +1,15 @@
 package fi.oulu.cse.iknowwhatyoudidaftersupper;
 
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,4 +71,19 @@ public class CalendarFragment extends Fragment {
         return v;
     }
 
+    private final static int PERMISSION_REQUEST = 234;
+
+    /**
+     * @param activity
+     * @deprecated Use {@link #onAttach(Context)} instead.
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_CALENDAR) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[] { Manifest.permission.READ_CALENDAR},
+                    PERMISSION_REQUEST);
+        }
+        super.onAttach(activity);
+    }
 }
