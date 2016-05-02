@@ -25,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_OPENTASKS = "opentasks";
     private static final String TABLE_MYTASKS = "mytasks";
     private static final String TABLE_GROCERIES = "groceries";
+    private static final String TABLE_MEALS = "meals";
 
 
     // Table Columns names
@@ -32,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_GROCERY = "item";
     private static final String KEY_MYTASK = "MyTask";
     private static final String KEY_OPENTASK = "openTask";
+    private static final String KEY_TIME = "mealTime";
 
     //Groceries create statement
     private static String CREATE_GROCERIES_TABLE = "CREATE TABLE " + TABLE_GROCERIES + "("
@@ -43,6 +45,9 @@ public class DBHelper extends SQLiteOpenHelper {
     String CREATE_OPENTASKS_TABLE = "CREATE TABLE " + TABLE_OPENTASKS + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OPENTASK +  ")";
 
+    String CREATE_MEAL_TABLE = "CREATE TABLE " + TABLE_MEALS + "("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TIME +  ")";
+
 
 
     @Override
@@ -51,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_GROCERIES_TABLE);
         db.execSQL(CREATE_OPENTASKS_TABLE);
         db.execSQL(CREATE_MYTASKS_TABLE);
+        db.execSQL(CREATE_MEAL_TABLE);
     }
 
     @Override
@@ -59,6 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS opentasks");
         db.execSQL("DROP TABLE IF EXISTS mytasks");
         db.execSQL("DROP TABLE IF EXISTS groceries");
+        db.execSQL("DROP TABLE IF EXISTS meals");
         onCreate(db);
     }
 
@@ -68,6 +75,14 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_GROCERY, grocery);
         db.insert(TABLE_GROCERIES, null, contentValues);
+        return true;
+    }
+    public boolean insertMealTime  (String time)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_TIME, time);
+        db.insert(TABLE_MEALS, null, contentValues);
         return true;
     }
     public boolean insertMyTask  (String MyTask)
@@ -133,6 +148,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_GROCERIES, KEY_GROCERY+"="+"'"+name+"'", null) > 0;
 
     }
+    public boolean deleteMealTime (String time)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_MEALS, KEY_TIME+"="+"'"+time+"'", null) > 0;
+
+    }
     public boolean deleteAllGrocery ()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -191,6 +212,20 @@ public class DBHelper extends SQLiteOpenHelper {
 
         while(res.isAfterLast() == false){
             array_list.add(res.getString(res.getColumnIndex(KEY_OPENTASK)));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+    public ArrayList<String> getAllMealTimes() {
+        ArrayList<String> array_list = new ArrayList<String>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from opentasks", null);
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            array_list.add(res.getString(res.getColumnIndex(KEY_TIME)));
             res.moveToNext();
         }
         return array_list;

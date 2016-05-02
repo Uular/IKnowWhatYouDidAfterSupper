@@ -12,8 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -47,6 +51,17 @@ public class DashboardFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    private String getNextDinner() {
+        final DBHelper db = new DBHelper(getActivity());
+        ArrayList<String> mealList;
+        mealList = db.getAllMealTimes();
+        Collections.sort(mealList);
+        int nextDinner = Integer.parseInt(mealList.get(0));
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+        String time = sdf.format(new Time(nextDinner*1000L));
+
+        return time;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,11 +77,14 @@ public class DashboardFragment extends Fragment {
         //TODO: update dinnertime to TextView, from calender or from the database
 
         final DBHelper db = new DBHelper(getActivity());
+
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         ListView listView=(ListView)view.findViewById(R.id.DashboardList);
         dashboardList = db.getAllMyTasks();
         dashboardAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.txtitem, dashboardList);
         listView.setAdapter(dashboardAdapter);
+        final TextView mealText = (TextView)view.findViewById(R.id.dinnerTime);
+        mealText.setText(getNextDinner());
         ImageButton AddBtn = (ImageButton)view.findViewById(R.id.newMealBtm);
         AddBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
