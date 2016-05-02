@@ -6,6 +6,9 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.widget.TimePicker;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Uula on 02/05/16.
  */
@@ -27,6 +30,18 @@ public class MealDialog extends DialogFragment
      */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // TODO: Add to database or calendar
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, minute);
+
+        if (cal.getTimeInMillis() < Calendar.getInstance().getTimeInMillis()) {
+            cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR)+1);
+        }
+
+        long time = cal.getTimeInMillis();
+
+        DBHelper db = new DBHelper(getActivity());
+        db.insertMealTime(Long.toString(time));
+
     }
 }

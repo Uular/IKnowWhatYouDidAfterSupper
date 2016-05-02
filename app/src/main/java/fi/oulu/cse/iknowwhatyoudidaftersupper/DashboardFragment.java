@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.TimePicker;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 
@@ -54,16 +56,25 @@ public class DashboardFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     private String getNextDinner() {
         final DBHelper db = new DBHelper(getActivity());
         ArrayList<String> mealList;
         mealList = db.getAllMealTimes();
         Collections.sort(mealList);
-        int nextDinner = Integer.parseInt(mealList.get(0));
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-        String time = sdf.format(new Time(nextDinner*1000L));
+        if (!mealList.isEmpty()) {
+            Log.d("DashDFrag", mealList.toString());
+            long nextDinner = Long.parseLong(mealList.get(0));
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
 
-        return time;
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(nextDinner);
+            String time = String.format("%02d:%02d", c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
+            return time;
+        } else {
+            return "N/A";
+        }
+
     }
 
     @Override

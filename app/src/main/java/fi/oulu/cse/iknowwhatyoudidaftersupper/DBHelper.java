@@ -1,6 +1,7 @@
 package fi.oulu.cse.iknowwhatyoudidaftersupper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import android.content.ContentValues;
@@ -15,7 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(Context context)
     {
-        super(context, DATABASE_NAME , null, 1);
+        super(context, DATABASE_NAME , null, 2);
     }
 
     // Database Name
@@ -219,9 +220,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<String> getAllMealTimes() {
         ArrayList<String> array_list = new ArrayList<String>();
 
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.set(Calendar.HOUR_OF_DAY, 23);
+        tomorrow.set(Calendar.MINUTE, 59);
+
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from opentasks", null);
+        Cursor res = db.rawQuery("select * from meals where mealTime between ? and ?", new String[]{
+                Long.toString(Calendar.getInstance().getTimeInMillis()), Long.toString(tomorrow.getTimeInMillis())});
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
