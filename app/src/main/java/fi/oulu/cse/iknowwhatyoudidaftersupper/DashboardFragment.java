@@ -1,5 +1,7 @@
 package fi.oulu.cse.iknowwhatyoudidaftersupper;
 
+import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -88,7 +91,10 @@ public class DashboardFragment extends Fragment {
         ImageButton AddBtn = (ImageButton)view.findViewById(R.id.newMealBtm);
         AddBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //TODO Method to add calender event
+                if (getActivity() != null) {
+                    DialogFragment newFragment = new MealDialog();
+                    newFragment.show(getActivity().getFragmentManager(), "MealTimePicker");
+                }
             }
         });
         return view;
