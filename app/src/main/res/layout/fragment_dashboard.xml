@@ -33,6 +33,7 @@
             android:id="@+id/newMealBtm"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:src="@android:drawable/ic_input_add"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             />
@@ -42,13 +43,41 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ToDo:"/>
     <ListView
         android:id="@+id/DashboardList"
         android:layout_width="match_parent"
         android:background="@android:color/background_light"
-        android:layout_height="200dp"></ListView>
+        android:layout_height="180dp"></ListView>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
+    <ListView
+        android:id="@+id/ChatList"
+        android:layout_width="match_parent"
+        android:background="@android:color/background_light"
+        android:layout_height="165dp"></ListView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <EditText
+            android:id="@+id/ChatInput"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="Message..."
+            />
+        <Button
+            android:id="@+id/ChatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:layout_toRightOf="@id/ChatInput"
+            />
+    </RelativeLayout>
 </LinearLayout>

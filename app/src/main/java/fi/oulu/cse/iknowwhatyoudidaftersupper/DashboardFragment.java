@@ -59,6 +59,8 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //TODO: update dinnertime to TextView, from calender or from the database
+
         final DBHelper db = new DBHelper(getActivity());
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         ListView listView=(ListView)view.findViewById(R.id.DashboardList);
@@ -68,7 +70,7 @@ public class DashboardFragment extends Fragment {
         ImageButton AddBtn = (ImageButton)view.findViewById(R.id.newMealBtm);
         AddBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                //TODO Method to add calender event
             }
         });
         return view;
