@@ -121,8 +121,6 @@ public class MainActivity extends AppCompatActivity
             f = mMapFragment;
         } else if (id == R.id.nav_groceries) {
             f = mGroceriesFragment;
-        } else if (id == R.id.nav_settings) {
-            // TODO
         }
 
         if (f != null) {
