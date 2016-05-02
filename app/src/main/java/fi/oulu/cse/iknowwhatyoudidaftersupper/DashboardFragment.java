@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -108,7 +110,68 @@ public class DashboardFragment extends Fragment {
                 }
             }
         });
+
+        EditText msg = (EditText) view.findViewById(R.id.ChatInput);
+        EditText nick = (EditText) view.findViewById(R.id.ChatNick);
+        msg.setOnFocusChangeListener(mHideListViewOnFocusListener);
+        nick.setOnFocusChangeListener(mHideListViewOnFocusListener);
+
+
+        Button chatButton = (Button) view.findViewById(R.id.ChatBtn);
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View vw = getView();
+                if (vw == null) return;
+
+                EditText msg = (EditText) vw.findViewById(R.id.ChatInput);
+                EditText nick = (EditText) vw.findViewById(R.id.ChatNick);
+
+                DBHelper db = new DBHelper(getActivity());
+                if (nick.length() > 0 && msg.length() > 0) {
+                    db.insertMessage(msg.getText().toString().trim(), nick.getText().toString().trim());
+                    msg.setText("");
+                    updateChat(getView());
+                }
+                msg.clearFocus();
+                nick.clearFocus();
+            }
+        });
+
+
+        updateChat(view);
+
         return view;
+    }
+
+    View.OnFocusChangeListener mHideListViewOnFocusListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            View view = getView();
+            if (view == null) return;
+            ListView listView=(ListView)view.findViewById(R.id.DashboardList);
+            if (hasFocus) {
+                listView.setVisibility(View.GONE);
+            } else {
+                listView.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
+    public void updateChat(View view) {
+        if (view == null) return;
+
+        DBHelper db = new DBHelper(getActivity());
+
+        List<String> msgs = db.getMessages();
+        StringBuilder chat = new StringBuilder();
+        for (String msg: msgs) {
+            chat.append(msg);
+        }
+
+        TextView chatView = (TextView) view.findViewById(R.id.ChatList);
+        chatView.setMovementMethod(new ScrollingMovementMethod());
+        chatView.setText(chat.toString());
     }
 
     // TODO: Rename method, update argument and hook method into UI event

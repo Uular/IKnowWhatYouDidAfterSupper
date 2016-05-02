@@ -8,6 +8,7 @@
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/alarmView"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <RelativeLayout
@@ -56,21 +57,35 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
-    <ListView
+
+    <TextView
+        android:maxLines="1000"
+        android:scrollbars="vertical"
         android:id="@+id/ChatList"
         android:layout_width="match_parent"
         android:background="@android:color/background_light"
-        android:layout_height="165dp"></ListView>
+        android:layout_height="165dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         >
         <EditText
-            android:id="@+id/ChatInput"
-            android:layout_width="280dp"
+            android:id="@+id/ChatNick"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:hint="Message..."
+            android:singleLine="true"
+            android:hint="Nickname"
+            android:imeOptions="actionNext"
+            />
+        <EditText
+            android:id="@+id/ChatInput"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ChatNick"
+            android:hint="Message"
+            android:imeOptions="actionDone"
+            android:lines="2"
             />
         <Button
             android:id="@+id/ChatBtn"
